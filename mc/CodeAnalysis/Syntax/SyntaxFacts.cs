@@ -1,4 +1,4 @@
-namespace Magick.CodeAnalysis
+namespace Magick.CodeAnalysis.Syntax
 {
     internal static class SyntaxFacts
     {

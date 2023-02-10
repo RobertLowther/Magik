@@ -1,4 +1,5 @@
 ﻿using Magick.CodeAnalysis;
+using Magick.CodeAnalysis.Syntax;
 
 namespace Magik
 {

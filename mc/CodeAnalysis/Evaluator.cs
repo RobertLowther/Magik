@@ -1,3 +1,5 @@
+using Magick.CodeAnalysis.Syntax;
+
 namespace Magick.CodeAnalysis
 {
     public sealed class Evaluator
