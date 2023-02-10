@@ -21,10 +21,25 @@ namespace Magick.CodeAnalysis
             {
                 // return -1 if node value is null
                 if (n.LiteralToken.Value == null)
-                    return -1;
+                    throw new Exception($"Literal token value was null. {n.Kind}");
                 
                 // return the value as an integer
                 return (int) n.LiteralToken.Value;
+            }
+
+            if (node is UnaryExpressionSyntax u)
+            {
+                // evaluate the operand to get an integer
+                int operand = EvaluateExpression(u.Operand);
+
+                // perform the apropriate operation on operand
+                if (u.OperatorToken.Kind == SyntaxKind.PlusToken)
+                    return operand;
+                else if (u.OperatorToken.Kind == SyntaxKind.MinusToken)
+                    return -operand;
+                else
+                    // if an unexpected operator arises then throw an exception
+                    throw new Exception($"Unexpected unary operator {u.OperatorToken.Kind}");                    
             }
 
             // if the node is a binary expression
@@ -34,7 +49,7 @@ namespace Magick.CodeAnalysis
                 int left = EvaluateExpression(b.Left);
                 int right = EvaluateExpression(b.Right);
 
-                // perform the arpropriate operation an left and rightt based on the operator
+                // perform the apropriate operation on left and right based on the operator
                 if (b.OperatorToken.Kind == SyntaxKind.PlusToken)
                     return left + right;
                 if (b.OperatorToken.Kind == SyntaxKind.MinusToken)

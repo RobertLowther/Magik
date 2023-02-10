@@ -1,5 +1,17 @@
 namespace Magick.CodeAnalysis
 {
+    //
+    //
+    // + 1
+    // -1 * -3
+    // -(3 + 3)
+    //
+    //
+    //    -
+    //    |
+    //    *
+    //   / \
+    //  1   2
 
     internal sealed class Parser
     {
@@ -66,7 +78,18 @@ namespace Magick.CodeAnalysis
 
         private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
-            ExpressionSyntax left = ParsePrimaryExpression();
+            ExpressionSyntax left;
+            var unaryOperatorPrecedence = SyntaxFacts.GetUnaryOperatorPrecedence(Current.Kind);
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+            {
+                SyntaxToken operatorToken = NextToken();
+                ExpressionSyntax operand = ParseExpression(unaryOperatorPrecedence);
+                left = new UnaryExpressionSyntax(operatorToken, operand);
+            }
+            else
+            {
+                left = ParsePrimaryExpression();
+            }
 
             while (true)
             {
