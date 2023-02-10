@@ -1,6 +1,6 @@
 namespace Magick.CodeAnalysis
 {
-    class Evaluator
+    public sealed class Evaluator
     {
         private readonly ExpressionSyntax _root;
 
@@ -19,12 +19,12 @@ namespace Magick.CodeAnalysis
             // Binary Expression
             // Number Expression
 
-            if (node is NumberExpressionSyntax n)
+            if (node is LiteralExpressionSyntax n)
             {
-                if (n.NumberToken.Value == null)
+                if (n.LiteralToken.Value == null)
                     return -1;
                     
-                return (int) n.NumberToken.Value;
+                return (int) n.LiteralToken.Value;
             }
 
             if (node is BinaryExpressionSyntax b)
