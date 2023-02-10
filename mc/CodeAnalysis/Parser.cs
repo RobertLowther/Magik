@@ -1,5 +1,6 @@
 namespace Magick.CodeAnalysis
 {
+
     internal sealed class Parser
     {
         private readonly SyntaxToken[] _tokens;
@@ -69,7 +70,7 @@ namespace Magick.CodeAnalysis
 
             while (true)
             {
-                int precendence = GetBinaryOperatorPrecedence(Current.Kind);
+                int precendence = SyntaxFacts.GetBinaryOperatorPrecedence(Current.Kind);
                 if (precendence == 0 || precendence <= parentPrecedence)
                     break;
 
@@ -80,23 +81,6 @@ namespace Magick.CodeAnalysis
 
             return left;
 
-        }
-
-        private static int GetBinaryOperatorPrecedence(SyntaxKind kind)
-        {
-            switch(kind)
-            {
-                case SyntaxKind.StarToken:
-                case SyntaxKind.SlashToken:
-                    return 2;
-                    
-                case SyntaxKind.PlusToken:
-                case SyntaxKind.MinusToken:
-                    return 1;
-
-                default:
-                    return 0;
-            }
         }
 
         private ExpressionSyntax ParsePrimaryExpression()
