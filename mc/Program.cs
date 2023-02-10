@@ -10,40 +10,46 @@ namespace Magik
 
             while (true)
             {
+                // Get User Input
                 Console.Write("> ");
                 string? line = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(line))
-                    return;
 
-                if (line == "#showTree")
+                // Check for special cases
+                switch (line)
                 {
-                    showTree = !showTree;
-                    Console.WriteLine(showTree ? "Showing parse trees." : "Not showimg parse trees.");
-                    continue;
-                }
-                else if (line == "#cls")
-                {
-                    Console.Clear();
-                    continue;
+                    case "/showTree" or "/st":
+                        showTree = !showTree;
+                        Console.WriteLine(showTree ? "Showing parse trees." : "Not showimg parse trees.");
+                        continue;
+                    case "/cls" or "/clear":
+                        Console.Clear();
+                        continue;
+                    case "" or "/quit" or "/q" or null:
+                        return;
                 }
 
                 SyntaxTree syntaxTree = SyntaxTree.Parse(line);
 
+                // if the show tree tag is set
                 if (showTree)
                 {
+                    // Print the tree as it was parsed
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     PrettyPrint(syntaxTree.Root);
                     Console.ResetColor();
                 }
 
+                // If no errors were reported
                 if (!syntaxTree.Diagnostics.Any())
                 {
-                    Evaluator e  = new Evaluator(syntaxTree.Root);
-                    int result = e.Evaluate();
+                    // Evaluate the tree
+                    Evaluator evaluator = new Evaluator(syntaxTree.Root);
+                    int result = evaluator.Evaluate();
                     Console.WriteLine(result);
                 }
                 else
                 {
+                    // Print the erros in red
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     
                     foreach (string diagnostic in syntaxTree.Diagnostics)
@@ -56,14 +62,8 @@ namespace Magik
             }
         }
 
-        static void PrettyPrint(SyntaxNode node, string indent = "", bool isLast = true)
+        static void PrettyPrint(SyntaxNode node, string indent = "", string marker = "", bool isLast = true, bool isRoot = true)
         {
-            // ├──
-            // │   
-            // └──
-
-            string marker = isLast ? "└──" : "├──";
-
             Console.Write(indent);
             Console.Write(marker);
 
@@ -77,12 +77,13 @@ namespace Magik
 
             Console.WriteLine();
 
-            indent += isLast ? "   " : "│  ";
+            if (!isRoot)
+                indent += isLast ? "   " : "│  ";
 
             SyntaxNode? lastChild = node.GetChildren().LastOrDefault();
 
             foreach (SyntaxNode child in node.GetChildren())
-                PrettyPrint(child, indent, child == lastChild);
+                PrettyPrint(child, indent, child == lastChild ? "└──" : "├──", child == lastChild, false);
         }
     }
 }
