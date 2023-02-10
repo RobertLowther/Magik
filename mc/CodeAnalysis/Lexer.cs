@@ -41,14 +41,14 @@ namespace Magick.CodeAnalysis
 
             if (char.IsDigit(Current))
             {
-                var start = _position;
+                int start = _position;
 
                 while (char.IsDigit(Current))
                     Next();
 
-                var length = _position - start;
-                var text = _text.Substring(start, length);
-                if (!int.TryParse(text, out var value))
+                int length = _position - start;
+                string text = _text.Substring(start, length);
+                if (!int.TryParse(text, out int value))
                 {
                     _diagnostics.Add($"The number {_text} isn't a valid int32");
                 }
@@ -58,14 +58,14 @@ namespace Magick.CodeAnalysis
 
             if (char.IsWhiteSpace(Current))
             {
-                var start = _position;
+                int start = _position;
 
                 while (char.IsWhiteSpace(Current))
                     Next();
 
-                var length = _position - start;
-                var text = _text.Substring(start, length);
-                int.TryParse(text, out var value);
+                int length = _position - start;
+                string text = _text.Substring(start, length);
+                int.TryParse(text, out int value);
                 return new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);
             }
 

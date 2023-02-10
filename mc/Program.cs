@@ -2,9 +2,9 @@
 
 namespace Magik
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             bool showTree = false;
 
@@ -31,21 +31,19 @@ namespace Magik
 
                 if (showTree)
                 {
-                    ConsoleColor color = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     PrettyPrint(syntaxTree.Root);
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
 
                 if (!syntaxTree.Diagnostics.Any())
                 {
-                    var e  =new Evaluator(syntaxTree.Root);
-                    var result = e.Evaluate();
+                    Evaluator e  = new Evaluator(syntaxTree.Root);
+                    int result = e.Evaluate();
                     Console.WriteLine(result);
                 }
                 else
                 {
-                    ConsoleColor color = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     
                     foreach (string diagnostic in syntaxTree.Diagnostics)
@@ -53,7 +51,7 @@ namespace Magik
                         Console.WriteLine(diagnostic);
                     }
 
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
             }
         }
@@ -79,11 +77,11 @@ namespace Magik
 
             Console.WriteLine();
 
-            indent += isLast ? "    " : "│   ";
+            indent += isLast ? "   " : "│  ";
 
-            var lastChild = node.GetChildren().LastOrDefault();
+            SyntaxNode? lastChild = node.GetChildren().LastOrDefault();
 
-            foreach (var child in node.GetChildren())
+            foreach (SyntaxNode child in node.GetChildren())
                 PrettyPrint(child, indent, child == lastChild);
         }
     }

@@ -6,6 +6,10 @@ namespace Magick.CodeAnalysis
         private int _position;
         private List<string> _diagnostics = new();
 
+        public IEnumerable<string> Diagnostics => _diagnostics;
+
+        private SyntaxToken Current => Peek(0);
+
         public Parser(string text)
         {
             List<SyntaxToken> tokens = new();
@@ -27,22 +31,18 @@ namespace Magick.CodeAnalysis
             _diagnostics.AddRange(lexer.Diagnostics);
         }
 
-        public IEnumerable<string> Diagnostics => _diagnostics;
-
         private SyntaxToken Peek(int offset)
         {
-            var index = _position + offset;
+            int index = _position + offset;
             if (index >= _tokens.Length)
                 return _tokens[_tokens.Length - 1];
 
             return _tokens[index];
         }
 
-        private SyntaxToken Current => Peek(0);
-
         private SyntaxToken NextToken()
         {
-            var current = Current;
+            SyntaxToken current = Current;
             _position++;
             return current;
         }
@@ -102,9 +102,9 @@ namespace Magick.CodeAnalysis
         {
             if (Current.Kind == SyntaxKind.OpenParenthesisToken)
             {
-                var left = NextToken();
-                var expression = ParseExpression();
-                var right = Match(SyntaxKind.CloseParenthesisToken);
+                SyntaxToken left = NextToken();
+                ExpressionSyntax expression = ParseExpression();
+                SyntaxToken right = Match(SyntaxKind.CloseParenthesisToken);
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
 
