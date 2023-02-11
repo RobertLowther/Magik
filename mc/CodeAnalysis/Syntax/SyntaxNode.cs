@@ -1,4 +1,4 @@
-namespace Magick.CodeAnalysis.Syntax
+namespace Magik.CodeAnalysis.Syntax
 {
     public abstract class SyntaxNode
     {

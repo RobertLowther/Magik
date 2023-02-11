@@ -1,5 +1,6 @@
-﻿using Magick.CodeAnalysis;
-using Magick.CodeAnalysis.Syntax;
+﻿using Magik.CodeAnalysis;
+using Magik.CodeAnalysis.Binding;
+using Magik.CodeAnalysis.Syntax;
 
 namespace Magik
 {
@@ -30,6 +31,10 @@ namespace Magik
                 }
 
                 SyntaxTree syntaxTree = SyntaxTree.Parse(line);
+                Binder binder = new Binder();
+                BoundExpression boundExpression = binder.BindExpression(syntaxTree.Root);
+
+                IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 // if the show tree tag is set
                 if (showTree)
@@ -41,10 +46,10 @@ namespace Magik
                 }
 
                 // If no errors were reported
-                if (!syntaxTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
                     // Evaluate the tree
-                    Evaluator evaluator = new Evaluator(syntaxTree.Root);
+                    Evaluator evaluator = new Evaluator(boundExpression);
                     int result = evaluator.Evaluate();
                     Console.WriteLine(result);
                 }
@@ -53,7 +58,7 @@ namespace Magik
                     // Print the erros in red
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     
-                    foreach (string diagnostic in syntaxTree.Diagnostics)
+                    foreach (string diagnostic in diagnostics)
                     {
                         Console.WriteLine(diagnostic);
                     }
