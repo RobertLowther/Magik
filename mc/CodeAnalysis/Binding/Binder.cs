@@ -25,7 +25,7 @@ namespace Magik.CodeAnalysis.Binding
 
         private BoundExpression BindLiteralExpression(LiteralExpressionSyntax syntax)
         {
-            var value = syntax.Value ?? 0;
+            object value = syntax.Value ?? 0;
             return new BoundLiteralExpression(value);
         }
 

@@ -93,3 +93,53 @@ namespace Magik
         }
     }
 }
+
+
+//Expression: 
+//
+//  -+6
+//
+//SyntaxTree:
+//
+// . = UnaryExpressionSyntax
+// : = BinaryExpressionSyntax
+//
+//   .
+//  / \
+// -   .
+//    / \
+//   +   6
+//
+//
+//BoundTree:
+//
+//  -
+//  |
+//  +
+//  |
+//  6
+
+
+//Expression: 
+//
+//  3 + 5 * 4
+//
+//SyntaxTree:
+//
+// . = UnaryExpressionSyntax
+// : = BinaryExpressionSyntax
+//
+//    :
+//   /|\
+//  3 + :
+//     /|\
+//    5 * 4
+//
+//
+//BoundTree:
+//
+//    +
+//   / \
+//  3   *
+//     / \
+//    5   4

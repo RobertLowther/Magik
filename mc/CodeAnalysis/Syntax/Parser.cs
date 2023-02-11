@@ -79,7 +79,7 @@ namespace Magik.CodeAnalysis.Syntax
         private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
             ExpressionSyntax left;
-            var unaryOperatorPrecedence = SyntaxFacts.GetUnaryOperatorPrecedence(Current.Kind);
+            int unaryOperatorPrecedence = SyntaxFacts.GetUnaryOperatorPrecedence(Current.Kind);
             if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
             {
                 SyntaxToken operatorToken = NextToken();
@@ -97,8 +97,8 @@ namespace Magik.CodeAnalysis.Syntax
                 if (precendence == 0 || precendence <= parentPrecedence)
                     break;
 
-                var operatorToken = NextToken();
-                var right = ParseExpression(precendence);
+                SyntaxToken operatorToken = NextToken();
+                ExpressionSyntax right = ParseExpression(precendence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
 
@@ -121,8 +121,8 @@ namespace Magik.CodeAnalysis.Syntax
                 case SyntaxKind.FalseKeyword:
                 case SyntaxKind.TrueKeyword:
                 {
-                    var keywordToken = NextToken();
-                    var value = keywordToken.Kind == SyntaxKind.TrueKeyword;
+                    SyntaxToken keywordToken = NextToken();
+                    bool value = keywordToken.Kind == SyntaxKind.TrueKeyword;
                     return new LiteralExpressionSyntax(keywordToken, value);
                 }
 

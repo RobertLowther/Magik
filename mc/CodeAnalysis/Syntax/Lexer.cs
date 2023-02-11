@@ -18,7 +18,7 @@ namespace Magik.CodeAnalysis.Syntax
 
         private char Peek(int offset)
         {
-            var index = _position + offset;
+            int index = _position + offset;
 
             if (index >= _text.Length)
                 return '\0';
@@ -89,7 +89,7 @@ namespace Magik.CodeAnalysis.Syntax
                 // convert the found string to a token and return
                 int length = _position - start;
                 string text = _text.Substring(start, length);
-                var kind = SyntaxFacts.GetKeywordKind(text);
+                SyntaxKind kind = SyntaxFacts.GetKeywordKind(text);
                 return new SyntaxToken(kind, start, text, null);
             }
 
