@@ -12,28 +12,24 @@ namespace Magik.CodeAnalysis
             _root = root;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(BoundExpression node)
+        private object EvaluateExpression(BoundExpression node)
         {
             // if the node is a literal value
             if (node is BoundLiteralExpression n)
-            {
-                // return -1 if node value is null
-                if (n.Value == null)
-                    throw new Exception($"Literal token value was null. {n.Kind}");
-                
+            {                
                 // return the value as an integer
-                return (int) n.Value;
+                return n.Value;
             }
 
             if (node is BoundUnaryExpression u)
             {
                 // evaluate the operand to get an integer
-                int operand = EvaluateExpression(u.Operand);
+                int operand = (int)EvaluateExpression(u.Operand);
 
                 // perform the apropriate operation on operand
                 switch (u.OperatorKind)
@@ -52,8 +48,8 @@ namespace Magik.CodeAnalysis
             if (node is BoundBinaryExpression b)
             {
                 // evaluate it's children to get integer values for left and right
-                int left = EvaluateExpression(b.Left);
-                int right = EvaluateExpression(b.Right);
+                int left = (int)EvaluateExpression(b.Left);
+                int right = (int)EvaluateExpression(b.Right);
 
                 // perform the apropriate operation on left and right based on the operator
                 switch (b.OperatorKind)

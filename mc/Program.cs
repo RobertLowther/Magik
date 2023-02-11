@@ -50,7 +50,7 @@ namespace Magik
                 {
                     // Evaluate the tree
                     Evaluator evaluator = new Evaluator(boundExpression);
-                    int result = evaluator.Evaluate();
+                    object result = evaluator.Evaluate();
                     Console.WriteLine(result);
                 }
                 else

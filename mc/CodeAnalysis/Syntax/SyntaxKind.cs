@@ -14,6 +14,11 @@ namespace Magik.CodeAnalysis.Syntax
         OpenParenthesisToken,
         CloseParenthesisToken,
 
+        //Keywords
+        FalseKeyword,
+        TrueKeyword,
+        IdentifierToken,
+
         // Expressions
         LiteralExpression,
         BinaryExpression,

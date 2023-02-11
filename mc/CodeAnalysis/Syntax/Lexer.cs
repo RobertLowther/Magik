@@ -75,6 +75,21 @@ namespace Magik.CodeAnalysis.Syntax
                 return new SyntaxToken(SyntaxKind.WhitespaceToken, start, text, null);
             }
 
+            // search for boolean values
+            if (char.IsLetter(Current))
+            {
+                // set start position and search for end position
+                int start = _position;
+                while (char.IsLetter(Current))
+                    Next();
+
+                // convert the found string to a token and return
+                int length = _position - start;
+                string text = _text.Substring(start, length);
+                var kind = SyntaxFacts.GetKeywordKind(text);
+                return new SyntaxToken(kind, start, text, null);
+            }
+
             // search for single special character tokens
             switch (Current)
             {
