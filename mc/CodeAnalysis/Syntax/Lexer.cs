@@ -13,14 +13,17 @@ namespace Magik.CodeAnalysis.Syntax
 
         public IEnumerable<String> Diagnostics => _diagnostics;
 
-        private char Current
-        {
-            get{
-                if (_position >= _text.Length)
-                    return '\0';
+        private char Current => Peek(0);
+        private char LookAhead => Peek(1);
 
-                return _text[_position];
-            }
+        private char Peek(int offset)
+        {
+            var index = _position + offset;
+
+            if (index >= _text.Length)
+                return '\0';
+
+            return _text[index];
         }
 
         private void Next()
@@ -105,6 +108,16 @@ namespace Magik.CodeAnalysis.Syntax
                     return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
                     return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
+                case '!':
+                    return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
+                case '&':
+                    if (LookAhead == '&')
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position+=2, "&&", null);
+                    break;
+                case '|':
+                    if (LookAhead == '|')
+                        return new SyntaxToken(SyntaxKind.PipePipeToken, _position+=2, "||", null);
+                    break;
             }
 
             // report any unrecognized characters as bad tokens and create a bad token to return

@@ -29,15 +29,17 @@ namespace Magik.CodeAnalysis
             if (node is BoundUnaryExpression u)
             {
                 // evaluate the operand to get an integer
-                int operand = (int)EvaluateExpression(u.Operand);
+                object operand = EvaluateExpression(u.Operand);
 
                 // perform the apropriate operation on operand
                 switch (u.OperatorKind)
                 {
                     case BoundUnaryOperatorKind.Identity:
-                        return operand;
+                        return (int)operand;
                     case BoundUnaryOperatorKind.Negation:
-                        return -operand;
+                        return -(int)operand;
+                    case BoundUnaryOperatorKind.LogicalNegation:
+                        return !(bool)operand;
                     default:
                         // if an unexpected operator arises then throw an exception
                         throw new Exception($"Unexpected unary operator {u.OperatorKind}");
@@ -48,20 +50,24 @@ namespace Magik.CodeAnalysis
             if (node is BoundBinaryExpression b)
             {
                 // evaluate it's children to get integer values for left and right
-                int left = (int)EvaluateExpression(b.Left);
-                int right = (int)EvaluateExpression(b.Right);
+                object left = EvaluateExpression(b.Left);
+                object right = EvaluateExpression(b.Right);
 
                 // perform the apropriate operation on left and right based on the operator
                 switch (b.OperatorKind)
                 {
                     case BoundBinaryOperatorKind.Addition:
-                        return left + right;
+                        return (int)left + (int)right;
                     case BoundBinaryOperatorKind.Subtraction:
-                        return left - right;
+                        return (int)left - (int)right;
                     case BoundBinaryOperatorKind.Multiplication:
-                        return left * right;
+                        return (int)left * (int)right;
                     case BoundBinaryOperatorKind.Division:
-                        return left / right;
+                        return (int)left / (int)right;
+                    case BoundBinaryOperatorKind.LogicalAnd:
+                        return (bool)left && (bool)right;
+                    case BoundBinaryOperatorKind.LogicalOr:
+                        return (bool)left || (bool)right;
                     default:
                         // if an unexpected operator arises then throw an exception
                         throw new Exception($"Unexpected binary operator {b.OperatorKind}");

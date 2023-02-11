@@ -5,6 +5,8 @@ namespace Magik.CodeAnalysis.Binding
         Addition,
         Subtraction,
         Multiplication,
-        Division
+        Division,
+        LogicalOr,
+        LogicalAnd
     }
 };

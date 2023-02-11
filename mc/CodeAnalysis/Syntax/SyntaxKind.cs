@@ -11,6 +11,9 @@ namespace Magik.CodeAnalysis.Syntax
         MinusToken,
         StarToken,
         SlashToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
 
@@ -23,6 +26,6 @@ namespace Magik.CodeAnalysis.Syntax
         LiteralExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        UnaryExpression
+        UnaryExpression,
     }
 }
