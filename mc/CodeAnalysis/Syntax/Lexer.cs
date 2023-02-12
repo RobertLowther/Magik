@@ -108,8 +108,6 @@ namespace Magik.CodeAnalysis.Syntax
                     return new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
                     return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
-                case '!':
-                    return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
                 case '&':
                     if (LookAhead == '&')
                         return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position+=2, "&&", null);
@@ -118,6 +116,15 @@ namespace Magik.CodeAnalysis.Syntax
                     if (LookAhead == '|')
                         return new SyntaxToken(SyntaxKind.PipePipeToken, _position+=2, "||", null);
                     break;
+                case '=':
+                    if (LookAhead == '=')
+                        return new SyntaxToken(SyntaxKind.EqualEqualToken, _position+=2, "==", null);
+                    break;
+                case '!':
+                    if (LookAhead == '=')
+                        return new SyntaxToken(SyntaxKind.BangEqualToken, _position+=2, "!=", null);
+                    else
+                        return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
             }
 
             // report any unrecognized characters as bad tokens and create a bad token to return

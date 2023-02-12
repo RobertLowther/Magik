@@ -14,6 +14,8 @@ namespace Magik.CodeAnalysis.Syntax
         BangToken,
         AmpersandAmpersandToken,
         PipePipeToken,
+        EqualEqualToken,
+        BangEqualToken,
         OpenParenthesisToken,
         CloseParenthesisToken,
 

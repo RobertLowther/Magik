@@ -68,6 +68,10 @@ namespace Magik.CodeAnalysis
                         return (bool)left && (bool)right;
                     case BoundBinaryOperatorKind.LogicalOr:
                         return (bool)left || (bool)right;
+                    case BoundBinaryOperatorKind.Equal:
+                        return Equals(left, right);
+                    case BoundBinaryOperatorKind.NotEqual:
+                        return !Equals(left, right);
                     default:
                         // if an unexpected operator arises then throw an exception
                         throw new Exception($"Unexpected binary operator {b.Op}");

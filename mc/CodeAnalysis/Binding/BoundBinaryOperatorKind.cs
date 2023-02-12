@@ -7,6 +7,8 @@ namespace Magik.CodeAnalysis.Binding
         Multiplication,
         Division,
         LogicalOr,
-        LogicalAnd
+        LogicalAnd,
+        Equal,
+        NotEqual,
     }
 };
