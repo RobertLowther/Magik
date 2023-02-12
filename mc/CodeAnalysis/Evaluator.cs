@@ -32,7 +32,7 @@ namespace Magik.CodeAnalysis
                 object operand = EvaluateExpression(u.Operand);
 
                 // perform the apropriate operation on operand
-                switch (u.OperatorKind)
+                switch (u.Op.Kind)
                 {
                     case BoundUnaryOperatorKind.Identity:
                         return (int)operand;
@@ -42,7 +42,7 @@ namespace Magik.CodeAnalysis
                         return !(bool)operand;
                     default:
                         // if an unexpected operator arises then throw an exception
-                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
+                        throw new Exception($"Unexpected unary operator {u.Op.Kind}");
                 }
             }
 
@@ -54,7 +54,7 @@ namespace Magik.CodeAnalysis
                 object right = EvaluateExpression(b.Right);
 
                 // perform the apropriate operation on left and right based on the operator
-                switch (b.OperatorKind)
+                switch (b.Op.Kind)
                 {
                     case BoundBinaryOperatorKind.Addition:
                         return (int)left + (int)right;
@@ -70,7 +70,7 @@ namespace Magik.CodeAnalysis
                         return (bool)left || (bool)right;
                     default:
                         // if an unexpected operator arises then throw an exception
-                        throw new Exception($"Unexpected binary operator {b.OperatorKind}");
+                        throw new Exception($"Unexpected binary operator {b.Op}");
                 }
             }
 
