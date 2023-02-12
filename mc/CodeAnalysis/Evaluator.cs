@@ -1,52 +1,84 @@
-namespace Magick.CodeAnalysis
-{
-    class Evaluator
-    {
-        private readonly ExpressionSyntax _root;
+using Magik.CodeAnalysis.Syntax;
+using Magik.CodeAnalysis.Binding;
 
-        public Evaluator(ExpressionSyntax root)
+namespace Magik.CodeAnalysis
+{
+    internal sealed class Evaluator
+    {
+        private readonly BoundExpression _root;
+
+        public Evaluator(BoundExpression root)
         {
             _root = root;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(ExpressionSyntax node)
+        private object EvaluateExpression(BoundExpression node)
         {
-            // Binary Expression
-            // Number Expression
-
-            if (node is NumberExpressionSyntax n)
-            {
-                if (n.NumberToken.Value == null)
-                    return -1;
-                    
-                return (int) n.NumberToken.Value;
+            // if the node is a literal value
+            if (node is BoundLiteralExpression n)
+            {                
+                // return the value as an integer
+                return n.Value;
             }
 
-            if (node is BinaryExpressionSyntax b)
+            if (node is BoundUnaryExpression u)
             {
-                int left = EvaluateExpression(b.Left);
-                int right = EvaluateExpression(b.Right);
+                // evaluate the operand to get an integer
+                object operand = EvaluateExpression(u.Operand);
 
-                if (b.OperatorToken.Kind == SyntaxKind.PlusToken)
-                    return left + right;
-                if (b.OperatorToken.Kind == SyntaxKind.MinusToken)
-                    return left - right;
-                if (b.OperatorToken.Kind == SyntaxKind.StarToken)
-                    return left * right;
-                if (b.OperatorToken.Kind == SyntaxKind.SlashToken)
-                    return left / right;
-                else
-                    throw new Exception($"Unexpected binary operator {b.OperatorToken.Kind}");
+                // perform the apropriate operation on operand
+                switch (u.Op.Kind)
+                {
+                    case BoundUnaryOperatorKind.Identity:
+                        return (int)operand;
+                    case BoundUnaryOperatorKind.Negation:
+                        return -(int)operand;
+                    case BoundUnaryOperatorKind.LogicalNegation:
+                        return !(bool)operand;
+                    default:
+                        // if an unexpected operator arises then throw an exception
+                        throw new Exception($"Unexpected unary operator {u.Op.Kind}");
+                }
             }
 
-            if (node is ParenthesizedExpressionSyntax p)
-                return EvaluateExpression(p.Expression);
+            // if the node is a binary expression
+            if (node is BoundBinaryExpression b)
+            {
+                // evaluate it's children to get integer values for left and right
+                object left = EvaluateExpression(b.Left);
+                object right = EvaluateExpression(b.Right);
 
+                // perform the apropriate operation on left and right based on the operator
+                switch (b.Op.Kind)
+                {
+                    case BoundBinaryOperatorKind.Addition:
+                        return (int)left + (int)right;
+                    case BoundBinaryOperatorKind.Subtraction:
+                        return (int)left - (int)right;
+                    case BoundBinaryOperatorKind.Multiplication:
+                        return (int)left * (int)right;
+                    case BoundBinaryOperatorKind.Division:
+                        return (int)left / (int)right;
+                    case BoundBinaryOperatorKind.LogicalAnd:
+                        return (bool)left && (bool)right;
+                    case BoundBinaryOperatorKind.LogicalOr:
+                        return (bool)left || (bool)right;
+                    case BoundBinaryOperatorKind.Equal:
+                        return Equals(left, right);
+                    case BoundBinaryOperatorKind.NotEqual:
+                        return !Equals(left, right);
+                    default:
+                        // if an unexpected operator arises then throw an exception
+                        throw new Exception($"Unexpected binary operator {b.Op}");
+                }
+            }
+
+            // if the node type was not detected then throw an exception
             throw new Exception($"Unexpected node {node.Kind}");
         }
     }
