@@ -43,11 +43,12 @@ namespace Magik.CodeAnalysis.Syntax
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
             }
 
+            int start = _position;
+
             // look for NumberTokens
             if (char.IsDigit(Current))
             {
                 // set start position and search for end position
-                int start = _position;
                 while (char.IsDigit(Current))
                     Next();
 
@@ -68,7 +69,6 @@ namespace Magik.CodeAnalysis.Syntax
             if (char.IsWhiteSpace(Current))
             {
                 // set start position and search for end position
-                int start = _position;
                 while (char.IsWhiteSpace(Current))
                     Next();
 
@@ -82,7 +82,6 @@ namespace Magik.CodeAnalysis.Syntax
             if (char.IsLetter(Current))
             {
                 // set start position and search for end position
-                int start = _position;
                 while (char.IsLetter(Current))
                     Next();
 
@@ -110,21 +109,36 @@ namespace Magik.CodeAnalysis.Syntax
                     return new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null);
                 case '&':
                     if (LookAhead == '&')
-                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position+=2, "&&", null);
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null);
+                    }
                     break;
                 case '|':
                     if (LookAhead == '|')
-                        return new SyntaxToken(SyntaxKind.PipePipeToken, _position+=2, "||", null);
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.PipePipeToken, start, "||", null);
+                    }
                     break;
                 case '=':
                     if (LookAhead == '=')
-                        return new SyntaxToken(SyntaxKind.EqualEqualToken, _position+=2, "==", null);
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.EqualEqualToken, start, "==", null);
+                    }
                     break;
                 case '!':
                     if (LookAhead == '=')
-                        return new SyntaxToken(SyntaxKind.BangEqualToken, _position+=2, "!=", null);
+                    {
+                        _position += 2;
+                        return new SyntaxToken(SyntaxKind.BangEqualToken, start, "!=", null);
+                    }
                     else
-                        return new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null);
+                    {
+                        _position += 1;
+                        return new SyntaxToken(SyntaxKind.BangToken, start, "!", null);
+                    }
             }
 
             // report any unrecognized characters as bad tokens and create a bad token to return
