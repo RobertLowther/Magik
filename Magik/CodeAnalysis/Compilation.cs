@@ -17,7 +17,7 @@ namespace Magik.CodeAnalysis
             var binder = new Binder();
             var BoundExpression = binder.BindExpression(Syntax.Root);
 
-            var diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToArray();
+            Diagnostic[] diagnostics = Syntax.Diagnostics.Concat(binder.Diagnostics).ToArray();
             if (diagnostics.Any())
             {
                 return new EvaluationResult(diagnostics, null);
@@ -25,7 +25,7 @@ namespace Magik.CodeAnalysis
 
             var evaluator = new Evaluator(BoundExpression);
             var value = evaluator.Evaluate();
-            return new EvaluationResult(Array.Empty<string>(), value);
+            return new EvaluationResult(Array.Empty<Diagnostic>(), value);
         }
     }
 }

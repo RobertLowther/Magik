@@ -34,7 +34,7 @@ namespace Magik
                 Compilation compilation = new Compilation(syntaxTree);
                 EvaluationResult result = compilation.Evaluate();
 
-                IReadOnlyList<string> diagnostics = result.Diagnostics;
+                IReadOnlyList<Diagnostic> diagnostics = result.Diagnostics;
 
                 // if the show tree tag is set
                 if (showTree)
@@ -55,7 +55,7 @@ namespace Magik
                     // Print the erros in red
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     
-                    foreach (string diagnostic in diagnostics)
+                    foreach (Diagnostic diagnostic in diagnostics)
                     {
                         Console.WriteLine(diagnostic);
                     }

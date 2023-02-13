@@ -4,14 +4,14 @@ namespace Magik.CodeAnalysis.Syntax
     {
         private readonly string _text;
         private int _position;
-        private List<string> _diagnostics = new();
+        private DiagnosticBag _diagnostics = new DiagnosticBag();
 
         public Lexer(string text)
         {
             _text = text;
         }
 
-        public IEnumerable<String> Diagnostics => _diagnostics;
+        public DiagnosticBag Diagnostics => _diagnostics;
 
         private char Current => Peek(0);
         private char LookAhead => Peek(1);
@@ -57,7 +57,7 @@ namespace Magik.CodeAnalysis.Syntax
                 if (!int.TryParse(text, out int value))
                 {
                     // Print diagnostic error messate
-                    _diagnostics.Add($"The number {_text} isn't a valid int32");
+                    _diagnostics.ReportInvalidNumber(new TextSpan(start, length), _text, typeof(int));
                 }
 
                 // convert the found string to a token and return
@@ -128,7 +128,7 @@ namespace Magik.CodeAnalysis.Syntax
             }
 
             // report any unrecognized characters as bad tokens and create a bad token to return
-            _diagnostics.Add($"ERROR: bad character in input: '{Current}'");
+            _diagnostics.ReportBadCharacter(_position, Current);
             return new SyntaxToken(SyntaxKind.BadToken, _position++, _text.Substring(_position - 1, 1), null);
         }
     }
