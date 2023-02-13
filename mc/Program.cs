@@ -21,7 +21,7 @@ namespace Magik
                 {
                     case "/showTree" or "/st":
                         showTree = !showTree;
-                        Console.WriteLine(showTree ? "Showing parse trees." : "Not showimg parse trees.");
+                        Console.WriteLine(showTree ? "Showing parse trees." : "Not showimg parse trees."); 
                         continue;
                     case "/cls" or "/clear":
                         Console.Clear();
@@ -31,10 +31,10 @@ namespace Magik
                 }
 
                 SyntaxTree syntaxTree = SyntaxTree.Parse(line);
-                Binder binder = new Binder();
-                BoundExpression boundExpression = binder.BindExpression(syntaxTree.Root);
+                Compilation compilation = new Compilation(syntaxTree);
+                EvaluationResult result = compilation.Evaluate();
 
-                IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+                IReadOnlyList<string> diagnostics = result.Diagnostics;
 
                 // if the show tree tag is set
                 if (showTree)
@@ -48,10 +48,7 @@ namespace Magik
                 // If no errors were reported
                 if (!diagnostics.Any())
                 {
-                    // Evaluate the tree
-                    Evaluator evaluator = new Evaluator(boundExpression);
-                    object result = evaluator.Evaluate();
-                    Console.WriteLine(result);
+                    Console.WriteLine(result.Value);
                 }
                 else
                 {

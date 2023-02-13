@@ -1,0 +1,12 @@
+D:\Magik\Magik\bin\Debug\net7.0\Magik.deps.json
+D:\Magik\Magik\bin\Debug\net7.0\Magik.dll
+D:\Magik\Magik\bin\Debug\net7.0\Magik.pdb
+D:\Magik\Magik\obj\Debug\net7.0\Magik.csproj.AssemblyReference.cache
+D:\Magik\Magik\obj\Debug\net7.0\Magik.GeneratedMSBuildEditorConfig.editorconfig
+D:\Magik\Magik\obj\Debug\net7.0\Magik.AssemblyInfoInputs.cache
+D:\Magik\Magik\obj\Debug\net7.0\Magik.AssemblyInfo.cs
+D:\Magik\Magik\obj\Debug\net7.0\Magik.csproj.CoreCompileInputs.cache
+D:\Magik\Magik\obj\Debug\net7.0\Magik.dll
+D:\Magik\Magik\obj\Debug\net7.0\refint\Magik.dll
+D:\Magik\Magik\obj\Debug\net7.0\Magik.pdb
+D:\Magik\Magik\obj\Debug\net7.0\ref\Magik.dll

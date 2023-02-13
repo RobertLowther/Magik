@@ -1,30 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {
-      "Magik/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "compile": {
-          "bin/placeholder/Magik.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Magik.dll": {}
-        }
-      }
-    }
+    "net7.0": {}
   },
-  "libraries": {
-    "Magik/1.0.0": {
-      "type": "project",
-      "path": "../Magik/Magik.csproj",
-      "msbuildProject": "../Magik/Magik.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net7.0": [
-      "Magik >= 1.0.0"
-    ]
+    "net7.0": []
   },
   "packageFolders": {
     "C:\\Users\\drail\\.nuget\\packages\\": {},
@@ -33,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Magik\\mc\\mc.csproj",
-      "projectName": "mc",
-      "projectPath": "D:\\Magik\\mc\\mc.csproj",
+      "projectUniqueName": "D:\\Magik\\Magik\\Magik.csproj",
+      "projectName": "Magik",
+      "projectPath": "D:\\Magik\\Magik\\Magik.csproj",
       "packagesPath": "C:\\Users\\drail\\.nuget\\packages\\",
-      "outputPath": "D:\\Magik\\mc\\obj\\",
+      "outputPath": "D:\\Magik\\Magik\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -57,11 +38,7 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {
-            "D:\\Magik\\Magik\\Magik.csproj": {
-              "projectPath": "D:\\Magik\\Magik\\Magik.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

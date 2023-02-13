@@ -13,3 +13,6 @@ D:\Magik\mc\obj\Debug\net7.0\refint\mc.dll
 D:\Magik\mc\obj\Debug\net7.0\mc.pdb
 D:\Magik\mc\obj\Debug\net7.0\mc.genruntimeconfig.cache
 D:\Magik\mc\obj\Debug\net7.0\ref\mc.dll
+D:\Magik\mc\bin\Debug\net7.0\Magik.dll
+D:\Magik\mc\bin\Debug\net7.0\Magik.pdb
+D:\Magik\mc\obj\Debug\net7.0\mc.csproj.CopyComplete

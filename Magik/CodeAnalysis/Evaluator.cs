@@ -1,4 +1,3 @@
-using Magik.CodeAnalysis.Syntax;
 using Magik.CodeAnalysis.Binding;
 
 namespace Magik.CodeAnalysis
